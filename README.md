@@ -1,52 +1,52 @@
 # OrbitSuite — unified Telegram automation monorepo
 
-**Runtime-only edition.** This separate clean repository contains the
-first-party OrbitSuite services and tests only. The 11 archived third-party
-source trees are intentionally omitted; obtain the separate full
-development archive if you need them for future feature ports.
-
 **Working name:** OrbitSuite. All first-party app names, commands, service
 identifiers, and configuration keys use our own naming. Original third-party
 copyright/license notices remain intact in the isolated source snapshots.
 
 ## Scope and honesty
 
-OrbitSuite combines a working Bot API control plane, optional messaging,
-personal and administration modules, and separately hosted media, history,
-RSS and local-AI adapters. The runtime edition ships **no** archived original
-source trees. This broad development build is **not** live Telegram or host
-acceptance-tested.
+OrbitSuite combines a working Bot API control plane, opt-in messaging,
+personal, administration and business modules, optional isolated Python
+media/history services, and a complete archived source inventory. It is a
+**broad development build**, not a claim of live Telegram, Oracle, Docker,
+PostgreSQL or every upstream-command compatibility.
 
-The original source projects are preserved in the separate full development
-edition, not automatically imported. Features are ported into
+The original source projects are preserved under neutral aliases in
+`third_party/`, not automatically imported. Features are ported into
 independently testable services and can be enabled later. This avoids
 combining incompatible versions of Pyrogram, Pyrofork, Telethon and aiogram
 into one process.
 
-## Repository layout (runtime edition)
+**Public GitHub branch note:** The private complete archive contains all 11
+upstream snapshots, but the public `full-development` branch excludes two
+snapshots without clear redistribution licenses. See
+[`legal/PUBLIC_MIRROR_SCOPE.md`](legal/PUBLIC_MIRROR_SCOPE.md) for the exact
+scope, credential finding and license requirements.
+
+## Repository layout
 
 | Location | Purpose |
 | --- | --- |
-| `apps/worker` | Shared Bot API business logic and optional Cloudflare Worker/D1 |
-| `apps/local` | Standalone Node/SQLite runtime with webhook or long polling |
-| `apps/dashboard` | Optional independently keyed read-only admin dashboard |
+| `apps/worker` | Shared Bot API logic and optional Cloudflare Worker/D1 entry point |
+| `apps/local` | Standalone Node runtime: SQLite, polling/webhook, background jobs; no Cloudflare account |
+| `apps/dashboard` | Optional read-only admin browser with a separate dashboard API key |
 | `services/media_worker` | Optional Python yt-dlp/FFmpeg downloader and Telegram uploader; temporary files only |
 | `services/user_bridge` | Optional manual Pyrogram history-to-archive copier; dry-run by default |
-| `services/automation` | Optional RSS/lookup service with network restrictions |
-| `services/ai` | Optional local lookup and transcription adapters |
-| `infra` | Termux, VPS/Oracle, systemd, Windows, PostgreSQL and Redis instructions |
-| `third_party` | Not shipped in this edition; only in the separate full archive |
-| `legal/THIRD_PARTY_NOTICES.md` | Provided with the separate full archive |
-| `docs/FEATURES.md` | Operational feature matrix |
-| `docs/117_FEATURE_LEDGER.md` | Full 117-item acceptance/status ledger |
+| `services/automation` | Optional allowlisted, DNS-pinned RSS and external lookup service |
+| `services/ai` | Fixed-provider lookup/translation adapters and optional local Whisper CLI transcription |
+| `infra` | Self-host, Termux, Windows, Linux/Oracle, PostgreSQL and Redis deployment options |
+| `third_party` | 11 untouched source trees under neutral directory aliases and 2 historical snapshots |
+| `legal/THIRD_PARTY_NOTICES.md` | Attribution, origin commits, licensing conditions |
+| `docs/FEATURES.md` | Operational feature matrix with qualified availability |
+| `docs/117_FEATURE_LEDGER.md` | Every numbered feature, evidence tier and outstanding gap |
+| `docs/20_REMAINING_ACCEPTANCE_GAPS.md` | Exact criteria for closing the remaining partial integrations |
 | `docs/DEPLOY.md` | Cloudflare, Termux, and private-server setup |
-| `docs/SELF_HOST.md` | Free-first Docker, Linux and Termux deployment guidance |
-| `docs/SECURITY.md` | Session protection, account risk, media hygiene, and audit findings |
-| `tools/audit_upstream.py` | Provided with the separate full archive |
-| `tools/archive_portability.py` | Previewable, opt-in SQLite route/archive metadata export/import |
-| `docs/20_REMAINING_ACCEPTANCE_GAPS.md` | Specific requirements for the 20 remaining partially accepted categories |
-| `docs/WINDOWS_11_LIVE_TEST.md` | Windows 11 prerequisites, secrets and live testing setup |
+| `docs/SELF_HOST.md` | Single-machine, Docker, Windows/Linux/Termux-oriented deployment |
+| `docs/WINDOWS_11_LIVE_TEST.md` | Windows 11 prerequisites, secrets and live staging steps |
 | `docs/WINDOWS_11_ACCEPTANCE_CHECKLIST.md` | Pass/fail evidence log for Windows tests |
+| `docs/SECURITY.md` | Session protection, account risk, media hygiene, and audit findings |
+| `tools/audit_upstream.py` | Static read-only source triage |
 
 ## Working features in this build
 
@@ -63,32 +63,43 @@ into one process.
 - Opt-in reminders, scheduled delivery
 - Opt-in media job queue with authenticated external Python processing
 - Optional Pyrogram history import with explicit `--execute` and dry-run default
-- No-Cloudflare standalone Node runtime, SQLite, Docker Compose and optional media profile
-- `/topiccreate`, `/batchlinks`, `/library`, `/find`, `/files`, `/sender`, `/filesize`
-- `/dlq`/`/adlq` quality selection, and opt-in ban/mute/promote administration
-- Albums, automatic topics, owner `/topicchoose` buttons, route templates, rich filters, checkpointed batches, reply and edit mirroring
-- Media playlists/batches, processing presets, progress/ETA, heartbeat, temporary FFmpeg transformations
-- Local history timeline, dry-run/report/checkpoint, private encrypted session vault
-- Owner-only personal aliases, RSS, AFK, recipes, anonymous polls, opt-in broadcasts, offline metadata helpers
-- Safe anti-spam and per-chat moderation, membership checks, read-only dashboard, draft commercial adapters
-- Optional PostgreSQL and Redis leader leases, dead-letter review, backup and deployment guides
-- Explicit owner-only AI text assistance through an opt-in Ollama-compatible provider; no model bundled
-- Persisted archive tags with owner search and safe export/import of route/archive metadata
-- Opt-in per-chat delegated moderators with role and daily quota enforcement
-- Owner-requested Telegram numbered file-part joining, ephemeral bytes and SHA-256 receipts
-- English subtitle embedding via local FFmpeg and `/transcribe` owner-private audio jobs via optional local Whisper
-- Signed, owner-only Telegram Mini App `/mini` and private multi-step `/formnew`/`/formopen` forms
-- H.264/H.265 video encoding, MP4/MKV, MP3/M4A/Opus, audio bitrates, real local MP3 upload integration tests
-- Corrected opt-in local Bot API multipart splitting up to a 4 GiB *source* (never a single 4 GiB Telegram upload)
-- Private Docker Compose RSS/wiki/RDAP lookup parser, plus guided encrypted local Pyrogram login
+- Optional trusted-host Pyrogram login wizard that encrypts the local session at rest
+- Self-hosted Node/SQLite option using long polling or webhooks
+- Docker Compose base service, optional FFmpeg/yt-dlp media profile
+- Owner `/topiccreate`, `/batchlinks`, and metadata-only `/library`/`/find`/`/files`
+- Optional source-sender and media-size route filters
+- Quality-specific media download jobs via `/dlq` and `/adlq` (live extraction pending)
+- Opt-in group moderation: ban/unban, mute/unmute, promote/demote
+- Grouped media album forwarding; automatic mapped forum topics and title sync
+- Safe regex, MIME, extension, date, sender and UTC delivery-window filters
+- Checkpointed 10K known-ID batches, route templates, reply-context and edit mirroring
+- Media playlists/batches, strict JSON processing options, upload/download progress and heartbeat
+- Optional FFmpeg transforms, thumbnails, screenshots, compression, splitting and subtitles
+- Optional searchable local history timeline, checkpoints, preview exports and encrypted session vault
+- Personal aliases, AFK, RSS, private polls, opt-in subscriber announcements and offline metadata tools
+- Opt-in moderation and membership checks, rate-limited workflows and a key-protected read-only dashboard
+- Inert multi-user role/quota and commercial plan adapters (no payment provider)
+- Optional PostgreSQL storage, Redis leadership lease, dead-letter review, alerts and backup commands
+- Linux/Oracle VPS, Termux and Windows host setup guides and offline GitHub Actions CI
+- Explicit owner-only AI-assisted text metadata through an opt-in Ollama-compatible provider
+- Persistent searchable archive tags and portable SQLite archive/route JSON import/export
+- Delegated per-chat moderator actions enforced by role checks and daily quotas
+- Owner-requested Telegram file-part joining with temporary Bot API transfers and SHA-256 receipts
+- Real FFmpeg MP4 subtitle embedding in the optional media worker
+- Owner-replied Telegram voice/audio transcription through an explicitly installed local Whisper model
+- Telegram Mini App read-only dashboard with verified owner HMAC and recent Telegram initData
+- Owner-private multi-question forms with callback Start, persisted answers, cancellation and expiry
+- Media conversion choices for H.264/H.265, MP4/MKV, MP3/M4A/Opus and bounded audio bitrates
+- Self-hosted RSS/Wikipedia/RDAP parser Compose overlay restricted to authenticated bot loopback
+- Real local FFmpeg MP3-to-upload integration tests and corrected high-capacity local file splitting
 
 ## Run local tests
 
-For **Windows 11**, use `infra/windows/preflight.ps1 -Mode Offline` and
-`infra/windows/test-offline.ps1` from PowerShell in the repository root.
-Start live staging only after following [the Windows testing guide](docs/WINDOWS_11_LIVE_TEST.md).
-The read-only `infra/windows/telegram-smoke.mjs` checks the token, webhook
-and two optional staging chats without modifying Telegram state.
+For Windows 11, use `infra/windows/preflight.ps1 -Mode Offline` and
+`infra/windows/test-offline.ps1`, then follow
+[the Windows 11 staging guide](docs/WINDOWS_11_LIVE_TEST.md). The read-only
+`infra/windows/telegram-smoke.mjs` validates the bot and test chat permissions
+without modifying Telegram state.
 
     cd apps/worker && npm test
     cd ../local && npm test
@@ -97,11 +108,12 @@ and two optional staging chats without modifying Telegram state.
     cd ../.. && python3 -m unittest discover -s services/automation -v
     python3 -m unittest discover -s services/ai -v
     python3 -m unittest tools.test_archive_portability -v
-    # Third-party verification belongs to the full development archive.
+    python3 tools/audit_upstream.py
+    bash verify-sources.sh
 
 Test passes do **not** imply a successful live deployment. The next stage
 needs a dedicated Telegram test bot/chat and secrets, then verification on
-your chosen host. Cloudflare is optional.
+your chosen host. Cloudflare D1 is **optional**, not required for self-hosting.
 
 ## Privacy and account restrictions
 
@@ -109,13 +121,13 @@ Neither control runtime downloads Telegram media, stores personal Telegram
 sessions, logs into your personal account, or bypasses protected content.
 The optional media service writes only to a temporary directory and deletes
 it after each job. The optional user bridge requires a local session on a
-trusted machine and does not auto-join chats or blindly retry an uncertain
-send. A separately operated local Telegram Bot API server can keep its own
-cache; its cleanup is a separate operator responsibility.
+**trusted, separately hosted machine**; the session is decrypted temporarily
+while it runs. It does not auto-join chats or blindly retry unknown deliveries.
 
-**Current audit:** 92 local-tested capability rows, 20 partial/unverified,
-2 pending and 3 intentionally excluded. The status is per capability rather
-than per upstream command. See `docs/117_FEATURE_LEDGER.md` for specifics.
+Advanced features remain **OFF until explicitly enabled or installed**.
+Strict media/API limits still apply, and platform-specific deployments and
+real Telegram traffic have not been acceptance-tested. `docs/117_FEATURE_LEDGER.md`
+distinguishes tested, partial and pending work.
 
 **No automation can guarantee immunity from Telegram restrictions.**
 Follow the permissions of every source chat and keep throughput modest.

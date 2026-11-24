@@ -1,0 +1,12 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+src/richpyro/__init__.py
+src/richpyro/py.typed
+src/richpyro.egg-info/PKG-INFO
+src/richpyro.egg-info/SOURCES.txt
+src/richpyro.egg-info/dependency_links.txt
+src/richpyro.egg-info/requires.txt
+src/richpyro.egg-info/top_level.txt
+tests/test_richpyro.py
