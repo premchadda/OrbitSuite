@@ -1,28 +1,35 @@
-# OrbitSuite — unified Telegram automation monorepo
+# OrbitSuite
 
-**Working name:** OrbitSuite. All first-party app names, commands, service
-identifiers, and configuration keys use our own naming. Original third-party
-copyright/license notices remain intact in the isolated source snapshots.
+OrbitSuite is a self-hostable Telegram automation toolkit maintained by
+[premchadda](https://github.com/premchadda/OrbitSuite). Run a personal bot
+to route messages between authorized chats, maintain a searchable archive,
+and schedule deliveries. Media processing and account-history imports run
+in optional, separate services.
 
-## Scope and honesty
+## Start on Windows 11
 
-OrbitSuite combines a working Bot API control plane, opt-in messaging,
-personal, administration and business modules, optional isolated Python
-media/history services, and a complete archived source inventory. It is a
-**broad development build**, not a claim of live Telegram, Oracle, Docker,
-PostgreSQL or every upstream-command compatibility.
+Install Node.js 24 or later. From the repository root, run these commands
+in PowerShell. Edit the three settings below before starting the bot.
 
-The original source projects are preserved under neutral aliases in
-`third_party/`, not automatically imported. Features are ported into
-independently testable services and can be enabled later. This avoids
-combining incompatible versions of Pyrogram, Pyrofork, Telethon and aiogram
-into one process.
+```powershell
+Copy-Item .env.example .env
+notepad .env
+```
 
-**Unified repository:** `main` contains the runtime, development tools, and redistributable upstream sources. The private complete archive contains all 11
-upstream snapshots, but the public repository excludes two
-snapshots without clear redistribution licenses. See
-[`legal/PUBLIC_MIRROR_SCOPE.md`](legal/PUBLIC_MIRROR_SCOPE.md) for the exact
-scope, credential finding and license requirements.
+Set `BOT_TOKEN` to your BotFather token, `OWNER_ID` to your numeric Telegram
+user ID, and `WEBHOOK_SECRET` to a random private value of at least 16
+characters. The default polling mode needs outbound access to Telegram.
+Use a bot with no active webhook.
+
+```powershell
+node --env-file=.env apps/local/src/runtime.js
+```
+
+In a second PowerShell window, run
+`Invoke-RestMethod http://127.0.0.1:8787/readyz`. Then send `/id` to the
+bot from the owner account to check Telegram delivery. SQLite stores data
+locally. See the [self-host guide](docs/SELF_HOST.md) for Docker and webhook
+setup. The active runtime and development tools are both on `main`.
 
 ## Repository layout
 
@@ -133,10 +140,13 @@ distinguishes tested, partial and pending work.
 Follow the permissions of every source chat and keep throughput modest.
 See `docs/SECURITY.md`.
 
-## Naming and third-party attribution
+## License
 
-User-facing branding is OrbitSuite. The archived third-party packages
-retain some internal original identifiers to remain unmodified and
-license-compliant. Removing their notices or globally renaming their
-internal symbols could break code or remove required attribution.
-Those packages are not the active branded application.
+Original OrbitSuite code and accompanying documentation are released under the
+[MIT License](LICENSE). Third-party material is covered by its respective license.
+
+## Third-party sources
+
+The runtime builds from `apps/`. The source snapshots under `third_party/`
+have their own authors and licenses. See the [upstream notices](legal/THIRD_PARTY_NOTICES.md)
+and [public source inventory](legal/PUBLIC_MIRROR_SCOPE.md).

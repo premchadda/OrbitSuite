@@ -1,5 +1,6 @@
 FROM node:24-alpine
 WORKDIR /srv/orbitsuite
+COPY apps/dashboard/ apps/dashboard/
 COPY apps/worker/src/ apps/worker/src/
 COPY apps/worker/migrations/ apps/worker/migrations/
 COPY apps/local/src/ apps/local/src/

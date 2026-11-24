@@ -38,3 +38,10 @@ jobs:
         run: |
           cp .env.example .env
           docker compose --env-file .env.example config --quiet
+      - name: Start the packaged SQLite bot and check database readiness
+        run: |
+          ORBIT_MODE=webhook docker compose up --build --wait --wait-timeout 90 bot
+          curl --fail --silent http://127.0.0.1:8787/readyz | jq -e '.ok == true'
+      - name: Stop the test bot
+        if: always()
+        run: docker compose down

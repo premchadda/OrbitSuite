@@ -20,7 +20,7 @@ The archived source trees now use neutral directory aliases, in table order:
 | `third_party/mtproto-client` | pyrogram |
 | `third_party/conversation-helper` | pyromod |
 
-Inventory derived directly from the supplied `devgagan-source.tar.gz` Git
+Inventory derived directly from the supplied Git
 checkouts, not an assumed or later remote GitHub state.
 
 | Directory | Archived HEAD | Branch | License evidence in snapshot | Main source features |

@@ -1,8 +1,8 @@
 # OrbitSuite v4.2 — Full development repository report
 
-**Date:** 24 November 2026. The full repository preserves 11 upstream source
-projects plus 2 historical branches in isolated source snapshots with their
-original attribution. The active application is fully first-party branded.
+As of 24 November 2026, public `main` contains the OrbitSuite runtime,
+development tools, nine upstream source directories and two historical
+snapshots. [Source inventory](legal/PUBLIC_MIRROR_SCOPE.md)
 
 ## 117-feature evidence status
 
