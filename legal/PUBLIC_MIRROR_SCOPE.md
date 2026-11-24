@@ -1,11 +1,10 @@
-# Public GitHub development branch: redistribution scope
+# Public GitHub repository: redistribution scope
 
 The complete private OrbitSuite development archive preserves 11 upstream
-source snapshots and 2 historical branch snapshots. The public GitHub
-`full-development` branch is a **license-screened development mirror**:
+source snapshots and 2 historical branch snapshots. The unified public GitHub repository on `main` is a **license-screened development mirror**:
 
 - First-party OrbitSuite code, tests, infrastructure and documentation are
-  available in full. The `main` branch is the recommended runtime.
+  available in full. Development and runtime code share the same branch.
 - Nine upstream source directories with explicit license evidence are mirrored
   together with their corresponding license, copyright and attribution files.
 - `third_party/saver-v4/` is not publicly mirrored: the supplied snapshot

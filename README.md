@@ -18,8 +18,8 @@ independently testable services and can be enabled later. This avoids
 combining incompatible versions of Pyrogram, Pyrofork, Telethon and aiogram
 into one process.
 
-**Public GitHub branch note:** The private complete archive contains all 11
-upstream snapshots, but the public `full-development` branch excludes two
+**Unified repository:** `main` contains the runtime, development tools, and redistributable upstream sources. The private complete archive contains all 11
+upstream snapshots, but the public repository excludes two
 snapshots without clear redistribution licenses. See
 [`legal/PUBLIC_MIRROR_SCOPE.md`](legal/PUBLIC_MIRROR_SCOPE.md) for the exact
 scope, credential finding and license requirements.
@@ -36,7 +36,7 @@ scope, credential finding and license requirements.
 | `services/automation` | Optional allowlisted, DNS-pinned RSS and external lookup service |
 | `services/ai` | Fixed-provider lookup/translation adapters and optional local Whisper CLI transcription |
 | `infra` | Self-host, Termux, Windows, Linux/Oracle, PostgreSQL and Redis deployment options |
-| `third_party` | 11 untouched source trees under neutral directory aliases and 2 historical snapshots |
+| `third_party` | 9 public upstream source directories and 2 historical snapshots |
 | `legal/THIRD_PARTY_NOTICES.md` | Attribution, origin commits, licensing conditions |
 | `docs/FEATURES.md` | Operational feature matrix with qualified availability |
 | `docs/117_FEATURE_LEDGER.md` | Every numbered feature, evidence tier and outstanding gap |
