@@ -1,0 +1,10 @@
+name = "orbitsuite-control"
+main = "src/index.js"
+compatibility_date = "2026-11-24"
+[triggers]
+crons = ["* * * * *"]
+[[d1_databases]]
+binding = "DB"
+database_name = "orbitsuite"
+database_id = "REPLACE_WITH_D1_ID"
+migrations_dir = "migrations"

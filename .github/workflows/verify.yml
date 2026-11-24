@@ -1,0 +1,40 @@
+name: OrbitSuite offline verification
+on:
+  push:
+  pull_request:
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Worker tests
+        run: cd apps/worker && npm test
+      - name: Local runtime tests
+        run: cd apps/local && npm test
+      - name: Media worker tests
+        run: cd services/media_worker && python -m unittest discover -v
+      - name: History bridge tests
+        run: cd services/user_bridge && python -m unittest discover -v
+      - name: Offline AI and RSS security tests
+        run: |
+          python -m unittest discover -s services/ai -v
+          python -m unittest discover -s services/automation -v
+      - name: Portable metadata archive tests
+        run: python -m unittest tools.test_archive_portability -v
+      - name: Source snapshot integrity
+        run: |
+          if [ -f verify-sources.sh ]; then
+            bash verify-sources.sh
+          else
+            echo 'Runtime-only edition: source snapshots deliberately omitted.'
+          fi
+      - name: Compose definition sanity check
+        run: |
+          cp .env.example .env
+          docker compose --env-file .env.example config --quiet

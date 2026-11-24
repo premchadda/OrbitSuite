@@ -1,0 +1,14 @@
+third_party/
+legal/
+docs/
+.git/
+.env
+**/__pycache__/
+**/.venv/
+**/node_modules/
+**/*.session
+**/*.session-journal
+**/data/
+**/*.sqlite
+**/*.sqlite-wal
+**/*.sqlite-shm

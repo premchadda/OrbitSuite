@@ -1,0 +1,11 @@
+{
+  "name": "orbitsuite-local",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=24"},
+  "scripts": {
+    "start": "node src/runtime.js",
+    "test": "node --test"
+  }
+}

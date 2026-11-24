@@ -1,0 +1,11 @@
+# Optional local speech-to-text: supply a readable private model directory.
+# Example: docker compose -f compose.yaml -f infra/compose.whisper.yaml --profile media up -d
+# Install a compatible whisper-cli binary in the media container image first:
+# the default image intentionally does not download or bundle a model/binary.
+services:
+  media:
+    volumes:
+      - ${ORBIT_WHISPER_HOST_DIR:?Set a private host model directory}:/models:ro
+    environment:
+      ORBIT_WHISPER_MODEL_ROOT: /models
+      ORBIT_WHISPER_MODEL: ${ORBIT_WHISPER_MODEL:?Set an installed .bin model filename}

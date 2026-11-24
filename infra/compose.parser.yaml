@@ -1,0 +1,28 @@
+# Add to the base compose file for private on-machine RSS/wiki/RDAP lookups.
+# Reuses the bot's loopback namespace; no public parser port is published.
+services:
+  bot:
+    environment:
+      ORBIT_RSS_PARSER_URL: http://127.0.0.1:8188
+      ORBIT_RSS_ALLOW_LOCAL_HTTP: "1"
+      ORBIT_RSS_PARSER_TOKEN: ${ORBIT_RSS_PARSER_TOKEN:?Set a private 16+ character parser key}
+      ORBIT_RSS_HOSTS: ${ORBIT_RSS_HOSTS:-}
+  parser:
+    profiles: ["parser"]
+    build:
+      context: .
+      dockerfile: services/automation/Dockerfile
+    restart: unless-stopped
+    init: true
+    env_file: .env
+    environment:
+      ORBIT_RSS_PARSER_TOKEN: ${ORBIT_RSS_PARSER_TOKEN:?Set a private 16+ character parser key}
+      ORBIT_RSS_HOSTS: ${ORBIT_RSS_HOSTS:-}
+    network_mode: "service:bot"
+    read_only: true
+    tmpfs: [/tmp:size=16m,mode=1777]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      bot:
+        condition: service_healthy

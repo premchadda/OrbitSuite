@@ -1,0 +1,38 @@
+# Run: docker compose -f compose.yaml -f infra/compose.postgres.yaml up -d --build
+# Requires POSTGRES_PASSWORD in .env. Database is NOT exposed to host ports.
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile.extensions
+    environment:
+      ORBIT_STORE: postgres
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: orbitsuite
+      PGUSER: orbitsuite
+      PGPASSWORD: ${POSTGRES_PASSWORD:?Set a long random POSTGRES_PASSWORD in .env}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: orbitsuite
+      POSTGRES_USER: orbitsuite
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a long random POSTGRES_PASSWORD in .env}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - orbit_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orbitsuite -d orbitsuite"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    security_opt: [no-new-privileges:true]
+    # No ports: database only reachable on this Compose network.
+
+volumes:
+  orbit_pg_data:

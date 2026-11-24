@@ -1,0 +1,26 @@
+# Run with Postgres overlay for replicated app instances; Redis manages the
+# singleton polling/tick lease, while the PostgreSQL DB remains job authority.
+# Redis has no public host ports; don't attach untrusted containers to network.
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile.extensions
+    environment:
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    # Network-only, explicitly no host port. Use an authenticated external Redis
+    # instance when other/untrusted containers share the network.
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--protected-mode", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    security_opt: [no-new-privileges:true]

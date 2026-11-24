@@ -1,0 +1,13 @@
+# Explicit opt-in image for PostgreSQL and Redis. The default image uses SQLite
+# with zero external Node dependencies and needs no database/server service.
+FROM node:24-alpine
+WORKDIR /srv/orbitsuite
+COPY apps/worker/src/ apps/worker/src/
+COPY apps/worker/migrations/ apps/worker/migrations/
+COPY apps/local/src/ apps/local/src/
+COPY apps/local/package.json apps/local/package.json
+RUN cd apps/local && npm install --no-save --omit=dev --no-audit --no-fund pg@8 redis@5
+RUN mkdir -p /data && chown node:node /data
+USER node
+ENV ORBIT_HOST=0.0.0.0 ORBIT_PORT=8787 ORBIT_MODE=polling
+CMD ["node", "apps/local/src/runtime.js"]
